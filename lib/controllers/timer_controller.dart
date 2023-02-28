@@ -1,17 +1,13 @@
 import 'dart:async';
-import 'dart:typed_data';
-
+import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:keepfocus/models/PomodoCicleModel.dart';
+import 'package:keepfocus/services/notification_service.dart';
 import 'package:keepfocus/utils/phrases.dart';
-import 'package:flutter/services.dart';
 import 'package:keepfocus/shared/extensions.dart';
 import 'package:mobx/mobx.dart';
-import 'dart:io' show Platform;
-import 'dart:typed_data';
 part 'timer_controller.g.dart';
 
 class TimerController = _TimerControllerBase with _$TimerController;
@@ -103,15 +99,15 @@ abstract class _TimerControllerBase with Store {
   int get minutesLeft => (secondsLeft / 60).floor();
 
   @computed
-  Duration get focusDuration => Duration(minutes: 1);
+  Duration get focusDuration => Duration(minutes: 25);
 
   @computed
-  Duration get relaxDuration => Duration(minutes: 1);
+  Duration get relaxDuration => Duration(minutes: 5);
 
   @computed
   String get phrase {
     if (minutesLeft <= 4 && focused) return leftFiveMinutes;
-    if (relaxed && currentCicle.id != 3) return relaxTime;
+    if (currentCicle.id != 3 && relaxed) return relaxTime;
     return congratulations;
   }
 
@@ -146,8 +142,6 @@ abstract class _TimerControllerBase with Store {
 
   @action
   void countDownCalc() {
-    playAlarm();
-    return;
     if (status != PomodoroStatusENUM.PLAYED) return;
     if (secondsLeft == 0) {
       changeTimerType();
@@ -164,11 +158,24 @@ abstract class _TimerControllerBase with Store {
       updateCicle();
     }
     type = focused ? TimerTypeENUM.RELAX : TimerTypeENUM.FOCUS;
+    sendNotification();
     secondsLeft = _durationCicle.inSeconds;
     status = PomodoroStatusENUM.NOT_STARTED;
     animationController?.reset();
     showPhrase = true;
     await playAlarm();
+  }
+
+  @action
+  sendNotification() {
+    if (Platform.isAndroid || Platform.isIOS) {
+      String text = focused ? 'Hora de focar' : 'Hora de descansar';
+      return NotificationService().showLocalNotification(
+          id: 0,
+          title: "KeepFocus",
+          body: text,
+          payload: "You just took water! Huurray!");
+    }
   }
 
   @action
@@ -190,11 +197,9 @@ abstract class _TimerControllerBase with Store {
   @action
   Future<void> playAlarm() async {
     String audioasset = "assets/audio/alarm.mp3";
-    ByteData bytes = await rootBundle.load(audioasset);
-    Uint8List audiobytes =
-        bytes.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes);
-    await player.playBytes(audiobytes);
-    Future.delayed(Duration(seconds: 3)).then((value) => player.stop());
+    player.play(UrlSource(audioasset));
+    // player.;
+    Future.delayed(Duration(seconds: 3)).then((value) => player.pause());
   }
 
   @action

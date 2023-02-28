@@ -1,14 +1,6 @@
-import 'package:flutter/animation.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:get_it/get_it.dart';
-import 'package:keepfocus/controllers/timer_controller.dart';
-import 'package:keepfocus/screens/timer/widgets/actions_widget.dart';
 import 'package:keepfocus/screens/timer/widgets/custom_timer_widget.dart';
 import 'package:keepfocus/screens/timer/widgets/icon_area.widget.dart';
-import 'package:keepfocus/screens/timer/widgets/phrase_box_widget.dart';
 import 'package:keepfocus/screens/timer/widgets/pomodoro_cicles.widget.dart';
 import 'package:keepfocus/utils/breakpoints.dart';
 import 'package:keepfocus/utils/colors_util.dart';

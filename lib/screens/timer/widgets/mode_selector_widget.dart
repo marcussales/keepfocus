@@ -1,8 +1,5 @@
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:keepfocus/controllers/theme_selector_controller.dart';
-import 'package:keepfocus/main.dart';
 import 'package:keepfocus/shared/global.dart';
 import 'package:keepfocus/utils/colors_util.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';

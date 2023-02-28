@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import "dart:math" show pi;
 
-import 'package:keepfocus/utils/colors_util.dart';
-
 class CustomTimerPainter extends CustomPainter {
   CustomTimerPainter({
     required this.animation,

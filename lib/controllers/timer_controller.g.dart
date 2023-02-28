@@ -348,6 +348,17 @@ mixin _$TimerController on _TimerControllerBase, Store {
   }
 
   @override
+  dynamic sendNotification() {
+    final _$actionInfo = _$_TimerControllerBaseActionController.startAction(
+        name: '_TimerControllerBase.sendNotification');
+    try {
+      return super.sendNotification();
+    } finally {
+      _$_TimerControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void nextCicle() {
     final _$actionInfo = _$_TimerControllerBaseActionController.startAction(
         name: '_TimerControllerBase.nextCicle');

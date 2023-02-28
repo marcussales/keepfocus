@@ -9,6 +9,8 @@ import 'package:keepfocus/screens/timer/widgets/pomodoro_cicles.widget.dart';
 import 'package:keepfocus/shared/global.dart';
 import 'package:keepfocus/utils/breakpoints.dart';
 
+import '../../services/notification_service.dart';
+
 class PomodoroScreen extends StatefulWidget {
   PomodoroScreen({Key? key}) : super(key: key);
 
@@ -20,6 +22,7 @@ class _PomodoroScreenState extends State<PomodoroScreen>
     with TickerProviderStateMixin {
   late AnimationController _animationController =
       timerController.animationController!;
+  final notificationService = NotificationService();
 
   @override
   void initState() {
@@ -29,6 +32,7 @@ class _PomodoroScreenState extends State<PomodoroScreen>
     ));
     WidgetsBinding.instance.addPostFrameCallback((_) {
       themeController.setCurrentTheme();
+      notificationService.initializePlatformNotifications();
     });
     super.initState();
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:keepfocus/models/PomodoCicleModel.dart';
 import 'package:keepfocus/shared/global.dart';
@@ -62,8 +63,8 @@ class _ActionsWidgetState extends State<ActionsWidget>
     String url =
         isCurrentStatus ? '${iconUrl}-with-shadow.png' : '${iconUrl}.png';
     return InkWell(
-      mouseCursor: MaterialStateMouseCursor.clickable,
       onTap: () {
+        HapticFeedback.heavyImpact();
         if (isCurrentStatus) {
           if (timerController.isPlayed && status == PomodoroStatusENUM.PLAYED) {
             timerController.nextCicle();
